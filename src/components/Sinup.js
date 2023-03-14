@@ -1,8 +1,9 @@
-import { Button, Form } from "react-bootstrap";
+import { Button, Form, Nav } from "react-bootstrap";
 import React, { useState, useRef } from "react";
 import classes from "./Sinup.module.css";
+import { NavLink } from "react-router-dom";
 
-const LoginPage = () => {
+const SinupPage = () => {
   const emailInpurRef = useRef();
   const passwordInputRef = useRef();
   const confirmpasswordInputRef = useRef();
@@ -51,6 +52,7 @@ const LoginPage = () => {
     passwordInputRef.current.value = "";
     confirmpasswordInputRef.current.value = "";
   };
+
   return (
     <section className={classes.Look}>
       <h1>SignUp</h1>
@@ -87,16 +89,19 @@ const LoginPage = () => {
         <div>
           <Button variant="success pl-2" type="submit">
             Create Account
-          </Button>
-          <Button
-            style={{ marginLeft: "2rem" }}
-            className=" btn-outline-succes "
-          >
-            Have a Account?
-          </Button>
+          </Button>{" "}
         </div>
+        <Nav>
+          {" "}
+          <NavLink
+            to={"/loginDetails"}
+            style={{ color: "white", paddingTop: "1rem" }}
+          >
+            Have an Account?
+          </NavLink>
+        </Nav>
       </Form>
     </section>
   );
 };
-export default LoginPage;
+export default SinupPage;

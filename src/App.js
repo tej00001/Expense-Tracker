@@ -7,6 +7,7 @@ import FirstPageDetails from "./components/FirstPage/FIrstPage";
 import CompleteProfile from "./components/CompleteProfilePage/CompleteProfile";
 import AuthContext from "./components/Context/Auth-Context";
 import { useContext } from "react";
+import VerifyDetails from "./components/verifyPage";
 
 
 function App() {
@@ -21,11 +22,14 @@ function App() {
         <Route path="/loginDetails">
           <LoginPage />
         </Route>
+        <Route path="/verify-email">
+          <VerifyDetails />
+        </Route>
         <Route exact path="/showHandler">
           <AfterLogin />
         </Route>
         <Route  exact path="/completeProfile">
-        <CompleteProfile/> 
+         <CompleteProfile/> 
         </Route>
       </Switch>
     </Router>

@@ -55,14 +55,16 @@ const LoginPage = () => {
         .then((data) => {
           console.log(data);
           authCtx.login(data.idToken);
-          history.replace("/showHandler");
-          const userProfileIncomplete = true;
+          history.push("/verify-email");
+          // history.replace("/showHandler");
+          // const userProfileIncomplete = true;
 
           // If user profile is incomplete, show a message to the user
-          if (userProfileIncomplete) {
-            alert("Your profile is incomplete. Please update your profile.");
-            // history.push("/completeProfile");
-          }
+          // if (userProfileIncomplete) {
+          //   alert("Your profile is incomplete. Please update your profile.");
+          //   // history.push("/completeProfile");
+          // }
+         
         })
         .catch((err) => {
           alert(err.message);

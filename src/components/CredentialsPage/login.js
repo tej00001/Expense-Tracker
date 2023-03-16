@@ -2,7 +2,7 @@ import React, { useContext } from "react";
 import classes from "./login.module.css";
 import { Button, Form, Nav } from "react-bootstrap";
 import { useState, useRef } from "react";
-import { Link, NavLink, useHistory } from "react-router-dom";
+import { NavLink, useHistory } from "react-router-dom";
 import AuthContext from "../Context/Auth-Context";
 
 const LoginPage = () => {
@@ -10,14 +10,54 @@ const LoginPage = () => {
   const emailInputRef = useRef();
   const passwordInputRef = useRef();
   const authCtx = useContext(AuthContext);
-  const [login, setLogin] = useState(true);
+  const [login, setLogin] = useState(false);
+
+  const ForgotPasswordHandler = () => {
+    alert("you may have received an email with reset link");
+    console.log(emailInputRef.current.value);
+
+    fetch(
+      "https://identitytoolkit.googleapis.com/v1/accounts:sendOobCode?key=AIzaSyDPoaT-0mC2-yFWGR52fJyNvc__l6fdMlI",
+      {
+        method: "POST",
+        body: JSON.stringify({
+          requestType: "PASSWORD_RESET",
+          email: emailInputRef.current.value,
+        }),
+        headers: {
+          "Content-Type": "application/json",
+        },
+      }
+    )
+      .then((res) => {
+        if (res.ok) {
+          console.log("Login succesfullly");
+          console.log(res);
+          return res.json();
+        } else {
+          return res.json().then((data) => {
+            console.log(data);
+            let errorMessage = "Email sent for reset password";
+            if (data && data.error && data.error.message) {
+              errorMessage = data.error.message;
+            }
+            throw new Error(errorMessage);
+          });
+        }
+      })
+      .then((data) => {
+        console.log(data);
+      })
+      .catch((err) => {
+        alert(err.message);
+      });
+  };
 
   const FromSubmit = (event) => {
     event.preventDefault();
-    setLogin(false);
     const enteredEmail = emailInputRef.current.value;
     const enteredPassword = passwordInputRef.current.value;
-
+    setLogin(true);
     if (enteredEmail === "" || enteredPassword === "") {
       alert("Must fill both Email and Password");
     } else {
@@ -64,10 +104,10 @@ const LoginPage = () => {
           //   alert("Your profile is incomplete. Please update your profile.");
           //   // history.push("/completeProfile");
           // }
-         
         })
         .catch((err) => {
           alert(err.message);
+          setLogin(false);
         });
     }
   };
@@ -90,7 +130,7 @@ const LoginPage = () => {
         </Form.Group>
 
         <div>
-          {login ? (
+          {!login ? (
             <Button variant="success pl-2" type="submit">
               Sign in
             </Button>
@@ -98,9 +138,12 @@ const LoginPage = () => {
             <p style={{ color: "white" }}>Loading...</p>
           )}
 
-          <Link style={{ color: "white", paddingLeft: "2rem" }}>
+          <Button
+            onClick={ForgotPasswordHandler}
+            style={{ color: "white", marginLeft: "1rem", padding: "0.1rem" }}
+          >
             forgot password?
-          </Link>
+          </Button>
         </div>
         <Nav>
           <NavLink

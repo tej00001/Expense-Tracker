@@ -4,15 +4,12 @@ import classes from "./FirstPage.module.css";
 import { useEffect, useContext } from "react";
 import AuthContext from "../Context/Auth-Context";
 
-
-
 const FirstPageDetails = () => {
   const authCtx = useContext(AuthContext);
- 
+
   const logout = () => {
     authCtx.logout();
   };
- 
 
   return (
     <Navbar
@@ -39,7 +36,7 @@ const FirstPageDetails = () => {
           )}
           {authCtx.isLoggedIn && (
             <NavLink
-              to="/"
+              to="/Home"
               className={classes.font}
               style={{ color: "Red" }}
               onClick={logout}

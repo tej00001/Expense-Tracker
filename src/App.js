@@ -8,14 +8,18 @@ import CompleteProfile from "./components/CompleteProfilePage/CompleteProfile";
 import AuthContext from "./components/Context/Auth-Context";
 import { useContext } from "react";
 import VerifyDetails from "./components/verifyPage";
-
+import { Redirect } from "react-router-dom";
 
 function App() {
   const authCtx = useContext(AuthContext);
 
   return (
-    <Router> <FirstPageDetails />
+    <Router>
+      <FirstPageDetails />
       <Switch>
+        <Route exact path="/Home">
+          <Redirect to="/loginDetails" />
+        </Route>
         <Route exact path="/SignupDetails">
           <SinupPage />
         </Route>
@@ -28,8 +32,8 @@ function App() {
         <Route exact path="/showHandler">
           <AfterLogin />
         </Route>
-        <Route  exact path="/completeProfile">
-         <CompleteProfile/> 
+        <Route exact path="/completeProfile">
+          <CompleteProfile />
         </Route>
       </Switch>
     </Router>

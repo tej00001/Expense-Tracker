@@ -95,7 +95,8 @@ const LoginPage = () => {
         .then((data) => {
           console.log(data);
           authCtx.login(data.idToken);
-          history.push("/verify-email");
+          history.replace("/AddExpenseDetails");
+          // history.push("/verify-email");
           // history.replace("/showHandler");
           // const userProfileIncomplete = true;
 

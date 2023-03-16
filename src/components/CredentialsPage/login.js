@@ -10,10 +10,11 @@ const LoginPage = () => {
   const emailInputRef = useRef();
   const passwordInputRef = useRef();
   const authCtx = useContext(AuthContext);
+  const [login, setLogin] = useState(true);
 
   const FromSubmit = (event) => {
     event.preventDefault();
-
+    setLogin(false);
     const enteredEmail = emailInputRef.current.value;
     const enteredPassword = passwordInputRef.current.value;
 
@@ -87,9 +88,13 @@ const LoginPage = () => {
         </Form.Group>
 
         <div>
-          <Button variant="success pl-2" type="submit">
-            Sign in
-          </Button>
+          {login ? (
+            <Button variant="success pl-2" type="submit">
+              Sign in
+            </Button>
+          ) : (
+            <p style={{ color: "white" }}>Loading...</p>
+          )}
 
           <Link style={{ color: "white", paddingLeft: "2rem" }}>
             forgot password?

@@ -5,10 +5,13 @@ import LoginPage from "./components/CredentialsPage/login";
 import AfterLogin from "./components/AfterLogin";
 import FirstPageDetails from "./components/FirstPage/FIrstPage";
 import CompleteProfile from "./components/CompleteProfilePage/CompleteProfile";
-import AuthContext from "./components/Context/Auth-Context";
+import AuthContext, {
+  AuthContextProvider,
+} from "./components/Context/Auth-Context";
 import { useContext } from "react";
 import VerifyDetails from "./components/verifyPage";
 import { Redirect } from "react-router-dom";
+import AddExpenseDetails from "./components/AddExpenses";
 
 function App() {
   const authCtx = useContext(AuthContext);
@@ -31,6 +34,9 @@ function App() {
         </Route>
         <Route exact path="/showHandler">
           <AfterLogin />
+        </Route>
+        <Route path="/AddExpenseDetails">
+          <AddExpenseDetails />
         </Route>
         <Route exact path="/completeProfile">
           <CompleteProfile />

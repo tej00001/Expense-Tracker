@@ -1,24 +1,66 @@
-import React, { useRef, useState } from "react";
+import React, { useRef, useState, useEffect, useContext } from "react";
 import { Form, Button, Table } from "react-bootstrap";
 import classes from "./AddExpenses.module.css";
-
+import AuthContext from "./Context/Auth-Context";
+import axios from "axios";
 const AddExpenseDetails = () => {
   const amountRef = useRef();
   const descriptionRef = useRef();
   const categoryRef = useRef();
   const [expenses, setExpenses] = useState([]);
+  // const [passExpenses, setPassExpenses] = useState([]);
+  // const authCntx =useState(AuthContext);
+
+  const authCtx = useContext(AuthContext);
+
+  useEffect(() => {
+    const emailStoredInLocalStorage = localStorage.getItem("email");
+    const userEmail = emailStoredInLocalStorage
+      ? emailStoredInLocalStorage.replace(/[^\w\s]/gi, "")
+      : "";
+
+    axios
+      .get(
+        `https://addexpenselist-default-rtdb.firebaseio.com//${userEmail}.json`
+      )
+      .then((response) => {
+        if (response.data) {
+          setExpenses(Object.values(response.data));
+        }
+      })
+      .catch((error) => {
+        console.log(error);
+      });
+  }, []);
+
+  console.log(expenses);
 
   const handleSubmit = (event) => {
     event.preventDefault();
+    const emailStoredInLocalStorage = localStorage.getItem("email");
+    const userEmail = emailStoredInLocalStorage
+      ? emailStoredInLocalStorage.replace(/[^\w\s]/gi, "")
+      : "";
 
     const expenseList = {
       amount: amountRef.current.value,
       description: descriptionRef.current.value,
       category: categoryRef.current.value,
     };
-
-    setExpenses([...expenses, expenseList]);
-
+    if (userEmail) {
+      axios
+        .post(
+          `https://addexpenselist-default-rtdb.firebaseio.com//${userEmail}.json`,
+          expenseList
+        )
+        .then((response) => {
+          console.log(response);
+          setExpenses([...expenses, expenseList]);
+        })
+        .catch((error) => {
+          console.log(error);
+        });
+    }
     console.log(expenseList);
 
     amountRef.current.value = "";
@@ -65,7 +107,7 @@ const AddExpenseDetails = () => {
           </div>{" "}
         </Form>{" "}
       </div>
-      <h3 className="text-center mt-5 text-white">Expenses</h3>
+      <h3 className="text-center mt-1 text-white">Expenses</h3>
       <Table striped bordered hover variant="light" className="container">
         <thead>
           <tr>

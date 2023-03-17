@@ -5,6 +5,7 @@ const AuthContext = React.createContext({
   isLoggedIn: false,
   login: (token) => {},
   logout: () => {},
+  userEmail: "",
 });
 
 const retrieveStoredToken = () => {
@@ -23,17 +24,21 @@ export const AuthContextProvider = (props) => {
   }
   const [token, setToken] = useState(initialToken);
   const [userIsLoggedIn, setUserIsLoggedIn] = useState(null);
+  const [userEmail, setUseremail] = useState("");
 
   const logoutHandler = () => {
     setToken(null);
+    setUseremail(null);
     localStorage.removeItem("token");
     setUserIsLoggedIn(false);
     alert("Logged out succesfull");
   };
 
-  const loginHandler = (token) => {
+  const loginHandler = (token, email) => {
     setToken(token);
     localStorage.setItem("token", token);
+    localStorage.setItem("email", email);
+
     setUserIsLoggedIn(true);
   };
 
@@ -52,6 +57,7 @@ export const AuthContextProvider = (props) => {
     isLoggedIn: userIsLoggedIn,
     login: loginHandler,
     logout: logoutHandler,
+    userEmail: userEmail,
   };
   return (
     <AuthContext.Provider value={contextValue}>

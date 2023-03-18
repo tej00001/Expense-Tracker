@@ -5,9 +5,7 @@ import LoginPage from "./components/CredentialsPage/login";
 import AfterLogin from "./components/AfterLogin";
 import FirstPageDetails from "./components/FirstPage/FIrstPage";
 import CompleteProfile from "./components/CompleteProfilePage/CompleteProfile";
-import AuthContext, {
-  AuthContextProvider,
-} from "./components/Context/Auth-Context";
+import AuthContext from "./components/Context/Auth-Context";
 import { useContext } from "react";
 import VerifyDetails from "./components/verifyPage";
 import { Redirect } from "react-router-dom";
